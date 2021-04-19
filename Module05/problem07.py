@@ -18,6 +18,7 @@ def ugly_number(n=1, a=2, b=3, c=4):
             print(f"index: {i}, value z: {z}")
             ugly_list.append(z)
             cc += 1
+    print(ugly_list)
     return ugly_list[-1]
 
-print(ugly_number(3, 2, 5, 1))
+print(ugly_number(5, 4, 7, 6))
