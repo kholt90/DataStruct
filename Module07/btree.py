@@ -28,13 +28,15 @@ class BinaryTreeTemplate():
 
     def TreeHeight(self):
         '''Write a member function, for either the template you designed in Q1 or the binaryTree class, that returns the height of the tree. The height of the tree is the number of levels it contains. '''
+        height = 1
         leftHeight = 0
         rightHeight = 0
         if self.left != None:
-            leftHeight = 1 + self.left.LeafCounter()
+            leftHeight = leftHeight + self.left.TreeHeight()
         if self.right != None:
-            rightHeight = 1 + self.right.LeafCounter()
-        return max(leftHeight, rightHeight)
+            rightHeight = rightHeight + self.right.TreeHeight()
+        height = height + max(leftHeight, rightHeight)
+        return height
 
     def TreeWidth(self):
         '''Write a member function, for either the template you designed in Q1 or the binaryTree class, that returns the width of the tree. The width of the tree is the largest number of nodes in the same level.'''
@@ -52,12 +54,12 @@ class BinaryTreeTemplate():
             if self.left is None:
                 self.left = node
             else:
-                self.left.add(node)
+                self.left.Add(node)
         else:
             if self.right is None:
                 self.right = node
             else:
-                self.right.add(node)
+                self.right.Add(node)
 
     def Min(self):
         '''Create a min() method on the bst class that returns the smallest value found in the BST.'''
@@ -94,6 +96,10 @@ class BinaryTreeTemplate():
         if self.data != None:
             emptyTree = False
         return emptyTree
+
+    def HeightBalanced(self):
+    '''Write a function to see if a binary tree is "superbalanced" (a new tree property we just made up).'''
+    
 
 
 tree1 = BinaryTreeTemplate(1)
