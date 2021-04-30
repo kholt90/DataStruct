@@ -38,6 +38,18 @@ class BinaryTreeTemplate():
         height = height + max(leftHeight, rightHeight)
         return height
 
+    def MinTreeHeight(self):
+        '''Write a member function, for either the template you designed in Q1 or the binaryTree class, that returns the height of the tree. The height of the tree is the number of levels it contains. '''
+        height = 1
+        leftHeight = 0
+        rightHeight = 0
+        if self.left != None:
+            leftHeight = leftHeight + self.left.MinTreeHeight()
+        if self.right != None:
+            rightHeight = rightHeight + self.right.MinTreeHeight()
+        height = height + min(leftHeight, rightHeight)
+        return height
+
     def TreeWidth(self):
         '''Write a member function, for either the template you designed in Q1 or the binaryTree class, that returns the width of the tree. The width of the tree is the largest number of nodes in the same level.'''
         queue = []
@@ -98,37 +110,60 @@ class BinaryTreeTemplate():
         return emptyTree
 
     def HeightBalanced(self):
-    '''Write a function to see if a binary tree is "superbalanced" (a new tree property we just made up).'''
-    
+        '''Write a function to see if a binary tree is "superbalanced" (a new tree property we just made up).'''
+        maxHeight = self.TreeHeight()
+        minHeight = self.MinTreeHeight()
+        print(abs(maxHeight - minHeight))
+        if abs(maxHeight - minHeight) <= 1:
+            return True
+        return False
 
+    def IsValid(self):
+        '''Write a function to check that a binary tree is a valid binary search tree.'''
+        IsValid = True
+        LeftValid = True
+        RightValid = True
+        if self.left != None:
+            LeftValid = self.left.IsValid()
+        if self.right != None:
+            RightValid = self.right.IsValid()
+        if LeftValid and RightValid:
+            if self.left != None:
+                if self.left.data > self.data:
+                    IsValid = False
+            if self.right != None:
+                if self.right.data < self.data:
+                    IsValid = False
+        return IsValid
 
-tree1 = BinaryTreeTemplate(1)
+    def SecondLargest(self):
+        value = self.data
+        if self.right != None and self.right.right != None:
+            value = self.right.SecondLargest()
+        return value
 
-tree2 = BinaryTreeTemplate(1,
-        BinaryTreeTemplate(2),
-        BinaryTreeTemplate(3)
-    )
-
-tree3 = BinaryTreeTemplate(1,
-        BinaryTreeTemplate(2,
-            BinaryTreeTemplate(4),
-            BinaryTreeTemplate(5)
-        ),
-        BinaryTreeTemplate(3,
-            BinaryTreeTemplate(6),
-            BinaryTreeTemplate(7)
+tree = BinaryTreeTemplate(
+    5,
+    BinaryTreeTemplate(
+        1,
+        None,
+        BinaryTreeTemplate(
+            2,
+            None,
+            BinaryTreeTemplate(
+                3,
+                None,
+                BinaryTreeTemplate(4)
+            )
         )
-    )
+    ),
+    None
+)
 
-print()
-print(f"Tree1 Nodes: {tree1.NodeCounter()}")
-print(f"Tree1 Leafs: {tree1.LeafCounter()}")
-print(f"Tree1 Height: {tree1.TreeHeight()}")
-print()
-print(f"Tree2 Nodes: {tree2.NodeCounter()}")
-print(f"Tree2 Leafs: {tree2.LeafCounter()}")
-print(f"Tree2 Height: {tree2.TreeHeight()}")
-print()
-print(f"Tree3 Nodes: {tree3.NodeCounter()}")
-print(f"Tree3 Leafs: {tree3.LeafCounter()}")
-print(f"Tree3 Height: {tree3.TreeHeight()}")
+print(f"Tree Nodes: {tree.NodeCounter()}")
+print(f"Tree Leafs: {tree.LeafCounter()}")
+print(f"Tree Height: {tree.TreeHeight()}")
+print(f"Tree Min Height: {tree.MinTreeHeight()}")
+print(f"Tree Superbalanced: {tree.HeightBalanced()}")
+print(f"Tree Is Valid: {tree.IsValid()}")
+print(f"Tree Second Largest: {tree.AlsoSecondLargest()}")
