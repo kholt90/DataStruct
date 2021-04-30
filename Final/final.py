@@ -1,8 +1,6 @@
 import random
 import math
 
-d = "being"
-
 print(f"-----===== Start =====-----\n")
 
 # Problem 1.
@@ -13,6 +11,17 @@ print(f"-----===== Start =====-----\n")
 # As with the example above, love rectangles are always "straight" and never "diagonal."
 # More rigorously: each side is parallel with either the x-axis or the y-axis.
 # They are defined as dictionaries like this:
+
+# love_rectangle = {
+#     # Coordinates of bottom-left corner
+#     'left_x': random.randint(1,5),
+#     'bottom_y': random.randint(1,5),
+#     # Width and height
+#     'width': random.randint(5,10),
+#     'height': random.randint(5,10)
+# }
+
+# Your output rectangle should use this format as well.
 
 print(f"\n-----===== Problem 1 =====-----\n")
 
@@ -74,12 +83,9 @@ your_rectangle = {
     'height': random.randint(5,10)
 }
 
-b = "feel"
 print(f"Me: {my_rectangle}")
 print(f"You: {your_rectangle}")
 print(f"Potential: {LoveIntersect(my_rectangle, your_rectangle)}")
-
-# Your output rectangle should use this format as well.
 
 # Problem 2.
 # Given a list of integers, find the highest product you can get from three of the integers.
@@ -87,24 +93,28 @@ print(f"Potential: {LoveIntersect(my_rectangle, your_rectangle)}")
 
 print(f"\n-----===== Problem 2 =====-----\n")
 
-def highest_product_of_three(integer_list):
-    integer_list.sort()
-    product_1 = integer_list[-2] * integer_list[-3]
-    product_2 = integer_list[0] * integer_list[1]
-    if product_1 > product_2:
-        return product_1 * integer_list[-1]
-    else:
-        return product_2 * integer_list[-1]
+def HighestProductOfThree(list_of_ints):
+    list_of_ints.sort()
+    print(f"Sorted Integers: {list_of_ints}")
+    product = None
+    if 3 <= len(list_of_ints):
+        # Multiply the second and third from the last
+        a = list_of_ints[-2] * list_of_ints[-3]
+        # Multiply the first and second to check for double negative multiplication
+        b = list_of_ints[0] * list_of_ints[1]
+        if b <= a:
+            product = a * list_of_ints[-1]
+        else:
+            product = b * list_of_ints[-1]
+    return product
 
-my_integer_list = []
-integer_list_length = random.randint(3,10)
-for i in range(integer_list_length):
-    my_integer_list.append(random.randint(1,5))
+my_list_of_ints = []
+list_of_ints_length = random.randint(3,10)
+for i in range(list_of_ints_length):
+    my_list_of_ints.append(random.randint(-5,5))
 
-print(f"Integer List: {my_integer_list}")
-print(f"Highest Product: {highest_product_of_three(my_integer_list)}")
-
-c = "you're"
+print(f"Integer List: {my_list_of_ints}")
+print(f"Highest Product: {HighestProductOfThree(my_list_of_ints)}")
 
 # Problem 3.
 # You have a list of integers, and for each index you want to find the product of every integer except the integer at that index.
@@ -133,8 +143,6 @@ my_integer_list = []
 integer_list_length = random.randint(1,10)
 for i in range(integer_list_length):
     my_integer_list.append(random.randint(1,5))
-
-f = "ched"
 
 print(f"Integer List: {my_integer_list}")
 print(f"Products: {get_products_of_all_ints_except_at_index(my_integer_list)}")
@@ -184,14 +192,12 @@ job_length = random.randint(1, 100)
 for i in range(job_length):
     job_a.insert(random.randint(0, 110))
 
-e = "wat"
-
-print(f"Job A length: {job_length}")
-print(f"Job A: {job_a}")
-print(f"Job A Max Temp: {job_a.get_max()}")
-print(f"Job A Min Temp: {job_a.get_min()}")
-print(f"Job A Mean Temp: {job_a.get_mean()}")
-print(f"Job A Mode Temp: {job_a.get_mode()}")
+print(f"Job A length: {job_length} days")
+print(f"Job A Temps: {job_a}")
+print(f"Job A Max Temp: {job_a.get_max()} F")
+print(f"Job A Min Temp: {job_a.get_min()} F")
+print(f"Job A Mean Temp: {job_a.get_mean()} F")
+print(f"Job A Mode Temp: {job_a.get_mode()} F")
 
 # Problem 5.
 # Suppose we had a list of n integers sorted in ascending order. How quickly could we check if a given integer is in the list?
@@ -199,21 +205,28 @@ print(f"Job A Mode Temp: {job_a.get_mode()}")
 
 print(f"\n-----===== Problem 5 =====-----\n")
 
-def FindInteger(IntegerList, given):
+def FindInteger(integer_list, given):
     found = False
-    if len(IntegerList) > 1:
-        mid = len(IntegerList) // 2
-        if IntegerList[mid] == given:
-            found = True
-        elif given < IntegerList[mid]:
-            found = FindInteger(IntegerList[:mid], given)
-        else:
-            found = FindInteger(IntegerList[mid+1:], given)
-    elif len(IntegerList) == 1 and IntegerList[0] == given:
+    steps = 0
+    if given == integer_list[-1]:
         found = True
-    return found
-
-a = "ever"
+    elif given < integer_list[-1]:
+        steps = 1
+        if len(integer_list) > 1:
+            mid = len(integer_list) // 2
+            if integer_list[mid] == given:
+                found = True
+            elif given < integer_list[mid]:
+                result = FindInteger(integer_list[:mid], given)
+                found = result[0]
+                steps = steps + result[1]
+            else:
+                result = FindInteger(integer_list[mid+1:], given)
+                found = result[0]
+                steps = steps + result[1]
+        elif len(integer_list) == 1 and integer_list[0] == given:
+            found = True
+    return found, steps
 
 my_integer_list = []
 integer_list_length = random.randint(1,10)
@@ -224,8 +237,7 @@ lost_integer = random.randint(1, 10)
 
 print(f"Integer List: {my_integer_list}")
 print(f"Given Integer: {lost_integer}")
-print(f"Find Integer: {FindInteger(my_integer_list, lost_integer)}")
+result = FindInteger(my_integer_list, lost_integer)
+print(f"Find Integer: {result[0]} in {result[1]} steps.")
 
 print(f"\n-----===== End =====-----\n")
-
-print(f"You {a} {b} like {c} {d} {e + f}")
