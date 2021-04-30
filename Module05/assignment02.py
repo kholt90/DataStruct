@@ -1,6 +1,4 @@
 
-from random import randint
-
 # Suppose an array of length n sorted in ascending order is rotated between 1 and n times.
 # For example, the array nums = [0,1,4,4,5,6,7] might become:
 # [4,5,6,7,0,1,4] if it was rotated 4 times.
@@ -20,6 +18,8 @@ from random import randint
 # nums is sorted and rotated between 1 and n times.
 
 print("\n-----===== Start =====-----\n")
+
+from random import randint
 
 def Rotate(the_list, rotations):
     for i in range(rotations):

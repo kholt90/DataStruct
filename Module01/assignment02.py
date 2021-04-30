@@ -85,7 +85,7 @@ def Reverse(the_list):
 
 print("-----===== Start =====-----\n")
 
-print("\n-----===== BiggieSize =====-----\n")
+print("-----===== BiggieSize =====-----\n")
 
 my_list = []
 for i in range(randint(1,10)):
