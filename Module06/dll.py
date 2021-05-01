@@ -143,13 +143,12 @@ class DoublyLinkedList:
         given.next.prev = given.prev
 
     def reverseList(self):
-        temp = self.head
-        self.head = self.tail
-        self.tail = temp
-
-        while temp.next != None:
-            temp.next, temp.prev = temp.prev, temp.next
-            temp = temp.next
+        if self.head != None:
+            current_node = self.head
+            self.head, self.tail = self.tail, self.head
+            while current_node.next != None:
+                current_node.next, current_node.prev = current_node.prev, current_node.next
+                current_node = current_node.prev
 
 # Start with empty list
 llist = DoublyLinkedList()
@@ -175,11 +174,4 @@ llist.insertAfter(llist.head.next, 8)
 
 print ("Created DLL is: ")
 llist.printList(llist.head)
-
-print()
-print(llist.kthToLast(2).data)
-print(llist.isValid())
-print(llist.isPallindrome())
-
 llist.reverseList()
-llist.printList()
