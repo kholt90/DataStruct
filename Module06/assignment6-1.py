@@ -16,10 +16,10 @@ print("\n-----===== Start =====-----\n")
 
 from random import randint
 
-class LinkedListNode:
-    def __init__(self, value):
-        self.value = value
-        self.next  = None
+class LinkedNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
 class LinkedList:
     def __init__(self):
@@ -27,32 +27,49 @@ class LinkedList:
 
     def __str__(self):
         the_string = []
-        if self.head != None:
-            print(a)
-            current_node = self.head
-            while current_node.next != None:
-                print(b)
-                the_string.append(current_node.value)
-                current_node = current_node.next
-        print(the_string)
+        current_node = self.head
+        while current_node != None:
+            the_string.append(current_node.data)
+            current_node = current_node.next
         return str(the_string)
 
     def Append(self, data):
-        node = LinkedListNode(data)
-        print(f"Node: Value")
+        node = LinkedNode(data)
         if self.head == None:
-            self.head == node
-            print(self.head.value)
+            self.head = node
         else:
             current_node = self.head
             while current_node.next != None:
                 current_node = current_node.next
             current_node.next = node
 
+    def CheckCycle(self):
+        cycle = False
+        visited = set()
+        current_node = self.head
+        while current_node and not cycle:
+            if current_node in visited:
+                cycle = True
+            visited.add(current_node)
+            current_node = current_node.next
+        return cycle
+
 my_list = LinkedList()
 for i in range(10):
     my_list.Append(randint(1,10))
 
-print(f"My list: {my_list}")
+print(f"My List: {my_list}")
+print(f"Contains Cycle: {my_list.CheckCycle()}")
+
+print("\nInsterting Cycle")
+my_list.head.next.next.next.next.next = my_list.head.next.next.next
+print(f"Contains Cycle: {my_list.CheckCycle()}")
+
+my_new_list = LinkedList()
+for i in range(10):
+    my_new_list.Append(randint(1,10))
+
+print(f"\nMy New List: {my_new_list}")
+print(f"Contains Cycle: {my_new_list.CheckCycle()}")
 
 print("\n-----===== End =====-----")

@@ -27,25 +27,47 @@ print("-----===== Start =====-----\n")
 
 from math import prod
 
-def StuffBag(cakes, capacity, bag=[]):
-    space = capacity - sum([cake[0] for cake in bag])
-    for cake in cakes:
-        if cake[0] <= space:
-            bag = StuffBag(cakes, capacity, bag + [cake])
+def CakeSort(cake):
+    result = cake[1]/cake[0] if 0 < cake[0] else 0
+    return result
+
+def ValuateBag(bag):
+    value = 0
+    for cake in bag:
+        value += cake[1]
+    return value
+
+def WeighBag(bag):
+    weight = 0
+    for cake in bag:
+        weight += cake[0]
+    return weight
+
+def StuffBag(cakes, capacity):
+    bag = []
+    bag_weight = 0
+    if 0 < len(cakes):
+        while bag_weight + cakes[0][0] <= capacity:
+            bag.append(cakes[0])
+            bag_weight = WeighBag(bag)
+        if bag_weight < capacity:
+            bag += StuffBag(cakes[1:], capacity - bag_weight)
     return bag
 
 def MaxBagValue(cakes, capacity):
-    if capacity == 0:
+    if capacity <= 0:
         value = "Bag can't hold anything"
     elif prod([cake[0] for cake in cakes]) == 0:
         value = "Weightless cakes make you infinitely rich."
     else:
-        value = StuffBag(cakes, capacity)
+        bag = StuffBag(cakes, capacity)
+        value = ValuateBag(bag)
     return value
 
 cake_tuples = [(7, 160), (3, 90), (2, 15)]
+cake_tuples.sort(key=CakeSort, reverse=True)
+
 capacity = 20
-capacity = 10
 
 print(f"Bag Value: {MaxBagValue(cake_tuples, capacity)}")
 
